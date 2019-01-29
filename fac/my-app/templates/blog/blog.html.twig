@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8"/>
+    <title>{% block title %}Welcome!{% endblock %}</title>
+    {% block stylesheets %}{% endblock %}
+    <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}"/>
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+    <!-- jQuery library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+    <!-- Latest compiled JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+    {#<!-- Custom CSS File -->#}
+    {#<script src="css/style.css"></script>#}
+
+    <style type="text/css">
+        *{ margin: 0; padding: 0; }
+
+        table.dataintable {
+            margin-top:15px;
+            border-collapse:collapse;
+            border:1px solid #aaa;
+            width:50%;
+        }
+        .inputDiv
+        {
+            display: block;
+            width: 400px;
+
+        }
+        .inputBtn
+        {
+            display: block;
+            width: 100px;
+
+        }
+        .main
+        {
+            width: 700px;
+            height: 400px;
+            margin: 0 auto;
+        }
+
+    </style>
+</head>
+<body>
+<div class="main">
+    <div class="leftbox">
+<table border="1" class="dataintable">
+    <tr>
+        <th>Title</th>
+        <th>Article</th>
+        <th>modifie </th>
+        <th>delete </th>
+
+    </tr>
+    {% for item in articles %}
+        {#<p> {{item.getTitle()}}</p>#}
+        <tr>
+            <form action="{{ path('modifie') }}" method="post">
+                <td>
+
+                    <input class="inputBtn" type="text" name="title{{ item.getId() }}" id="title{{ item.getId() }}" value="{{ item.getTitle() }}" />
+
+                </td>
+                <td><input  class="inputDiv" type="text" id="body{{ item.getId() }}" name="body{{ item.getId() }}" value="{{ item.getBody() }}"/>
+                </td>
+                <input id="artilceID" type="hidden"  name="artilceID" value="{{item.getId()}}"/>
+                <input id="author"  name="author" type="hidden" value="{{ author }}">
+                <td>
+                    <button class="inputBtn" type="submit">modifie</button></td>
+
+
+            </form>
+            <td>
+                <form action="{{ path('delete') }}" method="post">
+                    <input id="author"  name="author" type="hidden" value="{{ author }}">
+                    <input id="artilceID" type="hidden"  name="artilceID" value="{{item.getId()}}"/>
+                    <button class="inputBtn"  type="submit">delete</button>
+                </form>
+            </td>
+
+        </tr>
+        {#<p> {{ username[1].getTitle()}}</p>#}
+    {% endfor %}
+</table>
+
+    </div>
+    <div class="rightbox">
+<form action="{{ path('post') }}" method="post">
+    <label for="title" id="test">Title:</label>
+    <textarea rows="1" cols="30" id="title" name="title"></textarea>
+
+    <label for="body">Body:</label>
+    <textarea rows="1" cols="30" id="body" name="body"></textarea>
+    <input id="author"  name="author" type="hidden" value="{{ author }}">
+    {##}
+    {#If you want to control the URL the user#}
+    {#is redirected to on success (more details below)#}
+
+    {##}
+    <button type="submit">new blog</button>
+
+</form>
+{% block javascripts %}{% endblock %}
+</div>
+</div>
+</body>
+<script type="text/javascript">
+    function f() {
+        {% for item in articles %}
+        {#console.log({{ item.getId()}});#}
+        console.log(document.getElementById("body" +{{ item.getId() }}).innerText);
+        {#let text=document.getElementById("body"+{{item.getId()}}).innerText;#}
+
+        {% endfor %}
+        // console.log(document.getElementById("body3"))
+        // for (let item in  articles )
+        //     // console.log(document)
+        // { console.log(document.getElementById("body"+item.getId()));}
+        {#console.log("body" +{{ item.getId() }})#}
+
+    }
+
+</script>
+</html>
